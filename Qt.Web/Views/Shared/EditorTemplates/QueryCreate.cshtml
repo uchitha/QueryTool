@@ -1,0 +1,71 @@
+﻿@using Qt.Core
+@using Qt.Web
+@model Qt.Domain.Entity.Query
+
+    <div>
+        Create a query<br />
+        (Owner is always Chris Ranasinghe)
+    </div>
+
+
+
+<div style="width: 700px">
+<table>
+
+<tr>
+<td>
+<div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+      
+</td>
+<td style="width: 300px">
+  <div class="editor-field">
+            @Html.TextAreaFor(model => model.Name,1,40,null)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+</td>
+</tr>
+
+<tr>
+<td>
+<div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+      
+</td>
+<td>
+  <div class="editor-field">
+            @Html.TextAreaFor(model => model.Description, 3, 40, null)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+</td>
+</tr>
+
+    <tr>
+        <td>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Text)
+            </div>
+      
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextAreaFor(model => model.Text,20,80,null)
+            </div>
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <div class="editor-label">Group</div>
+        </td>
+        <td>
+            <div class="editor-field">@Html.DropDownList("Group",((SelectList)ViewBag.GroupList))</div>
+        </td>
+    </tr>
+
+</table>
+       </div> 
+
+      

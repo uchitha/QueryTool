@@ -1,0 +1,27 @@
+﻿@using Kendo.Mvc.UI
+@using Qt.Service.Results;
+
+@model QueryResult
+
+<p>Query Results are here</p>
+<div class="k-widget k-grid" id="Grid" data-role="grid" tabindex="0">
+<table>
+
+<thead class="k-grid-header">
+<tr>
+@foreach (Field f in Model.Fields) {
+    <th class="k-header">@f.Name</th>
+}
+</tr>
+</thead>
+<tbody>
+
+@foreach (Row r in Model.Rows) {
+    <tr>
+        @Html.Partial("_Row",r)
+    </tr>
+}
+</tbody>
+</table>
+</div>
+

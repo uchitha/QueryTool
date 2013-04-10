@@ -1,0 +1,37 @@
+﻿@model Qt.Web.Models.QueryMainModel
+
+
+@if (Model != null && Model.GroupId != 0)
+{
+    <div class="highlight">Displaying queries for Group '<b>@Model.GroupName</b>'</div>
+}
+
+
+@{
+    Html.RenderPartial("_Grid");
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+    });
+
+    function onError() {
+        alert("error");
+    }
+
+    function executeQuery(id) {
+        
+        var queryExUrl = '@Url.Action("RunQuery","Execute")' + "?id=" + id;
+        javascript:open(queryExUrl,'_self');
+    }
+        
+    function formatQueryEditPopUp() {
+         //alert('test');
+         var grid = $("#QueryGrid").data().kendoGrid;
+         grid.options.editable.window.width = "800px";
+         grid.options.editable.window.height = "600px";
+         grid.options.editable.window.title = "Edit / Create ";
+    }
+    
+
+</script>

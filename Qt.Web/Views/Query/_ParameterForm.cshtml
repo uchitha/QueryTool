@@ -1,0 +1,22 @@
+﻿@using Qt.Domain.Entity;
+
+
+@(
+
+ Html.Kendo().Grid<QueryParameter>()
+                .Name("QueryParameters")
+                .DataSource(ds => ds.Ajax()
+                        .Model(m =>
+                        {
+                            m.Id(s => s.Name);
+                            m.Field(s => s.Name).Editable(false);
+                        })
+                    .Read(r => r.Action("GetParameters","Query",new { Id = "#=Id#"}))
+                )
+               .Columns(c =>
+                            {
+                                c.Bound(qp => qp.Name);
+                                c.Bound(qp => qp.DefaultValue).ClientTemplate("<input type='text' name='#=Name#' />");
+                            }) 
+                .ToClientTemplate()
+)

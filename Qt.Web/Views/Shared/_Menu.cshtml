@@ -1,0 +1,27 @@
+﻿@using Qt.Web
+@{
+    var dbName = SessionManager.CurrentQtDbConnection == null ? "Change Db" : SessionManager.CurrentQtDbConnection.Name;
+    var groups = AppScopeDataManager.QueryGroups;
+}
+
+@(Html.Kendo().Menu()
+            .Name("menu") //The name of the menu is mandatory. It specifies the "id" attribute of the widget.
+            .Items(items =>
+                        {
+                            items.Add().Text("Home").Action("Index", "Query");
+                            items.Add().Text("Groups").Items(group =>
+                                                                 {
+                                                                     foreach (var queryGroup in groups)
+                                                                     {
+                                                                         group.Add().Text(queryGroup.Name).Action("Group", "Query", new {groupId = queryGroup.Id});
+                                                                     }
+                                                                 });
+                            items.Add().Text(dbName).Items(dbs =>
+                                                        {
+                                                            foreach (var database in SessionManager.DbList)
+                                                            {
+                                                                dbs.Add().Text(database.Value).Action("ChangeDb", "Home", new { dbKey = database.Key });
+                                                            }
+                                                        }); 
+                        })
+                              )

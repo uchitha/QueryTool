@@ -1,0 +1,64 @@
+@{
+    ViewBag.Title = "Testing...";
+}
+
+@section featured {
+<section class="featured">
+    <div class="content-wrapper">
+        <hgroup class="title">
+            <h1>@ViewBag.Title.</h1>
+        </hgroup>
+        <p>
+            To use Rail Historian Query Tool <a href="http://csmper-amq01:7777/RHQuery/qxHome" title="Query Tool">click here</a>. 
+            Enter 'read_only' and 'read_only' as credentials. 
+           
+        </p>
+        <p>
+            
+             Current connection : @ViewBag.Connection
+        </p>
+    </div>
+</section>
+}
+
+<h3>This is the Query Tool main components:</h3>
+
+<ol class="round">
+    <li class="one">
+        <h5>Query Repository</h5>
+        This is the data store holding all the query information. Could be any type of database.
+    </li>
+    <li class="two">
+        <h5>Query Manager</h5>
+       The application written in .Net/Python will host all the business logic managing the queries. It can also 
+       run queries against target databases. 
+    </li>
+    <li class="three">
+        <h5>User Interface</h5>
+       Currently a web interface, but could be anything really.
+    </li>
+</ol>
+
+<section class="features">
+    <section class="feature">
+        <img src="~/Images/aspNetHome.png" alt="" />
+        <h3>One stop shop for all sql queries</h3>
+        <p>
+           With query tool you can manage all the sql queries you will use in your day to day work. You can also share it. 
+        </p>
+    </section>
+    <section class="feature">
+        <img src="~/Images/NuGetGallery.png" alt="" />
+        <h3>Enhanced Data analysis</h3>
+        <p>
+           With query link capability you can jump from one query result to another making data analysis faster and robust.
+        </p>
+    </section>
+    <section class="feature">
+        <img src="~/Images/findHosting.png" alt="" />
+        <h3>Flexible Deployment</h3>
+        <p>
+           Query tool can be used either as a personal tool or a coporate tool. Decision is your
+        </p>
+    </section>
+</section>

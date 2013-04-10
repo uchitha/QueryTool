@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="QtModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="QtModelStoreContainer">
+    <EntitySet Name="Queries" EntityType="QtModel.Store.Queries" store:Type="Tables" Schema="qt" />
+    <EntitySet Name="DatabaseTypes" EntityType="QtModel.Store.DatabaseTypes" store:Type="Tables" Schema="qt" />
+    <EntitySet Name="Users" EntityType="QtModel.Store.Users" store:Type="Tables" Schema="qt" />
+    <EntitySet Name="Groups" EntityType="QtModel.Store.Groups" store:Type="Tables" Schema="qt" />
+    <AssociationSet Name="QueryDatabaseType" Association="QtModel.Store.QueryDatabaseType">
+      <End Role="Query" EntitySet="Queries" />
+      <End Role="DatabaseType" EntitySet="DatabaseTypes" />
+    </AssociationSet>
+    <AssociationSet Name="QueryGroup" Association="QtModel.Store.QueryGroup">
+      <End Role="Query" EntitySet="Queries" />
+      <End Role="Group" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="OwnerQuery" Association="QtModel.Store.OwnerQuery">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Query" EntitySet="Queries" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Queries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ParameterCount" Type="int" Nullable="true" />
+    <Property Name="DisplayOnHomeScreen" Type="bit" Nullable="false" />
+    <Property Name="Broken" Type="bit" Nullable="true" />
+    <Property Name="Published" Type="bit" Nullable="true" />
+    <Property Name="WrapColumns" Type="bit" Nullable="true" />
+    <Property Name="DatabaseTypeId" Type="int" Nullable="false" />
+    <Property Name="GroupId" Type="int" Nullable="true" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DatabaseTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DisplayOrder" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="QueryDatabaseType">
+    <End Role="Query" Type="QtModel.Store.Queries" Multiplicity="*" />
+    <End Role="DatabaseType" Type="QtModel.Store.DatabaseTypes" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="DatabaseType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Query">
+        <PropertyRef Name="DatabaseTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="QueryGroup">
+    <End Role="Query" Type="QtModel.Store.Queries" Multiplicity="*" />
+    <End Role="Group" Type="QtModel.Store.Groups" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Query">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OwnerQuery">
+    <End Role="User" Type="QtModel.Store.Users" Multiplicity="1" />
+    <End Role="Query" Type="QtModel.Store.Queries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Query">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="QtModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="QtModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Queries" EntityType="QtModel.Query" />
+          <EntitySet Name="DatabaseTypes" EntityType="QtModel.DatabaseType" />
+          <AssociationSet Name="QueryDatabaseType" Association="QtModel.QueryDatabaseType">
+            <End Role="Query" EntitySet="Queries" />
+            <End Role="DatabaseType" EntitySet="DatabaseTypes" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="QtModel.User" />
+          <EntitySet Name="Groups" EntityType="QtModel.Group" />
+          <AssociationSet Name="QueryGroup" Association="QtModel.QueryGroup">
+            <End Role="Query" EntitySet="Queries" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="OwnerQuery" Association="QtModel.OwnerQuery">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Query" EntitySet="Queries" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Query">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Text" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="Int32" Name="ParameterCount" Nullable="true" />
+          <Property Type="Boolean" Name="DisplayOnHomeScreen" Nullable="false" />
+          <Property Type="Boolean" Name="Broken" Nullable="true" />
+          <Property Type="Boolean" Name="Published" Nullable="true" />
+          <Property Type="Boolean" Name="WrapColumns" Nullable="true" />
+          <NavigationProperty Name="DatabaseType" Relationship="QtModel.QueryDatabaseType" FromRole="Query" ToRole="DatabaseType" />
+          <Property Type="Int32" Name="DatabaseTypeId" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="QtModel.QueryGroup" FromRole="Query" ToRole="Group" />
+          <Property Type="Int32" Name="GroupId" Nullable="true" />
+          <NavigationProperty Name="Owner" Relationship="QtModel.OwnerQuery" FromRole="Query" ToRole="User" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DatabaseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Type" Nullable="false" />
+        </EntityType>
+        <Association Name="QueryDatabaseType">
+          <End Type="QtModel.Query" Role="Query" Multiplicity="*" />
+          <End Type="QtModel.DatabaseType" Role="DatabaseType" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="DatabaseType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Query">
+              <PropertyRef Name="DatabaseTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Queries" Relationship="QtModel.OwnerQuery" FromRole="User" ToRole="Query" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Int32" Name="DisplayOrder" Nullable="false" />
+          <NavigationProperty Name="Queries" Relationship="QtModel.QueryGroup" FromRole="Group" ToRole="Query" />
+        </EntityType>
+        <Association Name="QueryGroup">
+          <End Type="QtModel.Query" Role="Query" Multiplicity="*" />
+          <End Type="QtModel.Group" Role="Group" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Query">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OwnerQuery">
+          <End Type="QtModel.User" Role="User" Multiplicity="1" />
+          <End Type="QtModel.Query" Role="Query" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Query">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QtModelStoreContainer" CdmEntityContainer="QtModelContainer">
+    <EntitySetMapping Name="Queries">
+      <EntityTypeMapping TypeName="IsTypeOf(QtModel.Query)">
+        <MappingFragment StoreEntitySet="Queries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ParameterCount" ColumnName="ParameterCount" />
+          <ScalarProperty Name="DisplayOnHomeScreen" ColumnName="DisplayOnHomeScreen" />
+          <ScalarProperty Name="Broken" ColumnName="Broken" />
+          <ScalarProperty Name="Published" ColumnName="Published" />
+          <ScalarProperty Name="WrapColumns" ColumnName="WrapColumns" />
+          <ScalarProperty Name="DatabaseTypeId" ColumnName="DatabaseTypeId" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DatabaseTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(QtModel.DatabaseType)">
+        <MappingFragment StoreEntitySet="DatabaseTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(QtModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(QtModel.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="DefaultDatabaseSchema" Value="qt" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="QtModel" >
+        <EntityTypeShape EntityType="QtModel.Query" Width="1.5" PointX="5.25" PointY="1.5" Height="2.5783902994791665" />
+        <EntityTypeShape EntityType="QtModel.DatabaseType" Width="1.5" PointX="8.625" PointY="1.5" Height="1.2636116536458326" />
+        <AssociationConnector Association="QtModel.QueryDatabaseType">
+          <ConnectorPoint PointX="6.75" PointY="2.1318058268229163" />
+          <ConnectorPoint PointX="8.625" PointY="2.1318058268229163" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="QtModel.User" Width="1.5" PointX="8.625" PointY="4.625" Height="1.4279589843749996" />
+        <EntityTypeShape EntityType="QtModel.Group" Width="1.5" PointX="2" PointY="2.125" Height="1.5923063151041665" />
+        <AssociationConnector Association="QtModel.QueryGroup">
+          <ConnectorPoint PointX="5.25" PointY="2.9211531575520833" />
+          <ConnectorPoint PointX="3.5" PointY="2.9211531575520833" />
+        </AssociationConnector>
+        <AssociationConnector Association="QtModel.OwnerQuery">
+          <ConnectorPoint PointX="8.625" PointY="5.3943698033854162" />
+          <ConnectorPoint PointX="6" PointY="5.3943698033854162" />
+          <ConnectorPoint PointX="6" PointY="4.7357796223958326" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

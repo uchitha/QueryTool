@@ -1,0 +1,55 @@
+﻿@using Kendo.Mvc;
+@using Qt.Domain.Entity;
+@using System.Web.Mvc;
+
+@(
+ Html.Kendo().Grid<Query>().Name("QueryGrid")
+    .DataSource(ds => ds.Ajax()
+                .Model(m => {
+                    m.Id(s => s.Id);
+                    m.Field(s => s.Id).Editable(false);
+                })
+                .Events(events => events.Error("onError"))
+                .Read(r =>
+                          {
+                              if (Model == null || Model.GroupId == 0)
+                              {
+                                  r.Action("Show", "Query");
+                              }
+                              else
+                              {
+                                  r.Action("ShowGroup", "Query", new {GroupId = Model.GroupId});
+                              }
+                          })
+                .Update(r => r.Action("Edit", "Query"))
+                .Destroy(r => r.Action("Delete","Query"))
+                .Create(r => r.Action("Create","Query"))
+                )
+    .ToolBar(toolbar => toolbar.Create().Text("Add Query"))
+    .Events(events =>
+                {
+                    events.DataBound("formatQueryEditPopUp");
+                })
+    .Editable(e => e.Mode(GridEditMode.PopUp).TemplateName("QueryCreate").Window( w=> w.Name("EditorPopUp")))
+    .Columns(c =>
+        {
+            c.Bound(m => m.Name);
+            //c.Bound(m => m.Owner).Title("Owner").ClientTemplate("#=Owner.Name#");
+            c.Bound(m => m.CreatedDateTime).Format("{0:d}");
+            c.Bound(m => m.DbType);
+            c.Bound(m => m.Text);
+            c.Bound(m => m.Id).Title("").ClientTemplate("<img src='" + Url.QtImage("run.png")  + "' width='32' height='32' onclick='executeQuery(" + "#=Id#" + ")' />");
+            c.Command(command =>
+            {
+                command.Edit();
+                command.Destroy();
+            });
+        })
+      .ClientDetailTemplateId("ParameterForm")
+      )
+      
+<script id="ParameterForm" type="text/kendo-tmpl">
+    
+    @Html.Partial("_ParameterForm")
+
+</script>
